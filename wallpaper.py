@@ -30,7 +30,7 @@ if not (base / 'pond.js').is_file():
 class PondWindow(Gtk.Window):
     def __init__(self, monitor, related_view=None):
         super().__init__(type=Gtk.WindowType.TOPLEVEL)
-        self.set_title(f'DaoHo Pond Desktop — {monitor.get_model()}')
+        self.set_title(f'Koi Pond Desktop — {monitor.get_model()}')
         self.set_decorated(False)
         self.set_skip_taskbar_hint(True)
         self.set_skip_pager_hint(True)

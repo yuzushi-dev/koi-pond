@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Embed Dao Ho's original renderer in xwinwrap and forward X11 pointer state."""
+"""Embed the pond renderer in xwinwrap and forward X11 pointer state."""
 import ctypes
 import os
 import sys
@@ -39,7 +39,7 @@ if not xdpy:
 root = x11.XDefaultRootWindow(xdpy)
 
 plug = Gtk.Plug.new(int(sys.argv[1], 0))
-plug.set_title('DaoHo Interactive Pond')
+plug.set_title('Koi Pond Interactive')
 web = WebKit2.WebView()
 web.set_can_focus(False)
 settings = web.get_settings()

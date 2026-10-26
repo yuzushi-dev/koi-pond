@@ -1,9 +1,9 @@
-# Dao Ho ASCII Koi Pond, standalone
+# Koi Pond
 
-Esegue la simulazione originale delle koi in una pagina HTML indipendente da React e PostHog. I tre file TypeScript del renderer, geometria e simulazione si scaricano direttamente dal repository pubblico dell'autore al primo avvio; il pacchetto non li ridistribuisce. Dopo `setup.sh` funziona offline.
+Esegue una simulazione ASCII delle koi in una pagina HTML indipendente da React e PostHog. I sorgenti TypeScript del renderer, della geometria e della simulazione sono inclusi nella repository. `setup.sh` installa il compilatore e prepara il bundle usando questi sorgenti. Dopo la preparazione funziona offline.
 
 ## Requisiti
-Linux, `curl`, Node.js/npm, Python 3 e browser con supporto Canvas 2D.
+Linux, Node.js/npm, Python 3 e browser con supporto Canvas 2D.
 
 ## Avvio
 ```bash
@@ -23,7 +23,7 @@ Apri http://127.0.0.1:8765/ nel browser. Con Chromium puoi usare `chromium --app
 ## Uso come wallpaper
 Il pacchetto include il motore del wallpaper, non un'integrazione specifica col desktop. Per lo sfondo animato usa un gestore di wallpaper che supporti pagine web locali come sorgenti e imposta `http://127.0.0.1:8765/` come URL. Il metodo per inserire una finestra nel layer desktop dipende da Cinnamon/X11, KDE/Wayland o GNOME.
 
-Sorgente: https://github.com/Dao-Ho/portfolio/tree/main/src/app/components/koi-pond
+La simulazione, il renderer e la geometria derivano dall'ASCII Koi Pond originale di **Dao Ho**: https://github.com/Dao-Ho/portfolio/tree/main/src/app/components/koi-pond. Questa variante aggiunge l'integrazione con Cinnamon X11 e la gestione dei consumi.
 Verifica la licenza e le condizioni d'uso del progetto prima di redistribuire il lavoro.
 
 ## Cinnamon X11: wallpaper su tutti i monitor

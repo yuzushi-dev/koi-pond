@@ -1,4 +1,4 @@
-# Dao Ho Koi Pond per Cinnamon X11
+# Koi Pond per Cinnamon X11
 
 Questa variante usa GTK e WebKitGTK. Crea uno sfondo animato per ogni monitor
 e lo colloca sotto le finestre delle icone di Nemo.
@@ -6,7 +6,7 @@ e lo colloca sotto le finestre delle icone di Nemo.
 ## Requisiti e avvio
 
 Servono Cinnamon su X11, Python 3, PyGObject, python3-xlib, GTK 3 e WebKitGTK 4.1
-(oppure 4.0). Wayland non è supportato. Node.js/npm e curl servono solo per
+(oppure 4.0). Wayland non è supportato. Node.js/npm servono solo per
 compilare il renderer con `setup.sh`.
 
 ```sh
