@@ -1,14 +1,14 @@
 # Koi Pond
 
 <p align="center">
-  <a href="assets/koi-pond-desktop.mp4">
-    <img src="assets/koi-pond-desktop.gif" width="960" alt="Live Cinnamon X11 desktop recording: ASCII koi swim behind the desktop icons across two monitors.">
+  <a href="assets/koi-pond-demo.mp4">
+    <img src="assets/koi-pond-demo.gif" width="960" alt="Animated orange, white and grey ASCII koi swimming on a dark pond background.">
   </a>
 </p>
 
 Koi Pond turns a Cinnamon X11 desktop into an animated ASCII koi pond. It runs locally through GTK and WebKitGTK, keeps desktop icons usable, and creates a separate animated surface for each monitor.
 
-The preview links to a real 12-second desktop recording at the current 16 fps setting. It shows two monitors, with desktop icons and a panel on the left display. The GIF preview is sampled at 8 fps. [Watch the MP4](assets/koi-pond-desktop.mp4) · [Still preview](assets/koi-pond-desktop.jpg) · [Text alternative](assets/accessibility.md).
+The preview links to a real 12-second recording of the pond at the current 16 fps setting, cropped to show only the fish without desktop icons or panels. The GIF preview is sampled at 8 fps. [Watch the MP4](assets/koi-pond-demo.mp4) · [Still preview](assets/koi-pond-demo.jpg) · [Text alternative](assets/accessibility.md).
 
 ## What it does
 
@@ -74,4 +74,4 @@ The checks cover desktop stacking, monitor creation, opaque-window pause rules, 
 
 The fish simulation, renderer and geometry derive from the original ASCII Koi Pond by **Dao Ho**, available in [the upstream portfolio](https://github.com/Dao-Ho/portfolio/tree/main/src/app/components/koi-pond). This adaptation adds Cinnamon X11 integration, multi-monitor handling and resource controls.
 
-The demo is a local screen recording of this adaptation. Check the upstream project's license and usage terms before redistributing its code or recordings.
+The demo is a cropped local screen recording of this adaptation. Check the upstream project's license and usage terms before redistributing its code or recordings.
