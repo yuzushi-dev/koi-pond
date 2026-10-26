@@ -1,36 +1,77 @@
 # Koi Pond
 
-Esegue una simulazione ASCII delle koi in una pagina HTML indipendente da React e PostHog. I sorgenti TypeScript del renderer, della geometria e della simulazione sono inclusi nella repository. `setup.sh` installa il compilatore e prepara il bundle usando questi sorgenti. Dopo la preparazione funziona offline.
+<p align="center">
+  <a href="assets/koi-pond-desktop.mp4">
+    <img src="assets/koi-pond-desktop.gif" width="960" alt="Live Cinnamon X11 desktop recording: ASCII koi swim behind the desktop icons across two monitors.">
+  </a>
+</p>
 
-## Requisiti
-Linux, Node.js/npm, Python 3 e browser con supporto Canvas 2D.
+Koi Pond turns a Cinnamon X11 desktop into an animated ASCII koi pond. It runs locally through GTK and WebKitGTK, keeps desktop icons usable, and creates a separate animated surface for each monitor.
 
-## Avvio
+The preview links to a real 12-second desktop recording at the current 16 fps setting. It shows two monitors, with desktop icons and a panel on the left display. The GIF preview is sampled at 8 fps. [Watch the MP4](assets/koi-pond-desktop.mp4) · [Still preview](assets/koi-pond-desktop.jpg) · [Text alternative](assets/accessibility.md).
+
+## What it does
+
+- Renders animated koi behind Nemo's desktop icons, with normal icon clicks preserved.
+- Runs on multiple monitors, using one shared WebKit web process.
+- Reacts to pointer movement. `Alt` + left click feeds the fish in desktop mode.
+- Caps animation at 16 fps and pauses each monitor when an opaque window covers its work area.
+- Respects `prefers-reduced-motion` and also runs as a standalone browser page.
+
+## Install
+
+Desktop mode requires Cinnamon on X11, Python 3, GTK 3, PyGObject, python3-xlib and WebKitGTK. On Linux Mint or an Ubuntu-based system, install the dependencies and launch from the checkout:
+
 ```bash
-chmod +x setup.sh start.sh
-./setup.sh
+sudo apt install python3-gi python3-xlib gir1.2-gtk-3.0 gir1.2-webkit2-4.1
+./wallpaper-start.sh
+```
+
+WebKitGTK 4.0 is supported when 4.1 is unavailable. The repository includes `pond.js`, so Node.js and a build step are optional for running the wallpaper. Desktop mode opens the local HTML file directly; it does not need an HTTP server. Stop a terminal-launched instance with `Ctrl+C`.
+
+## Autostart
+
+In Cinnamon's **Startup Applications**, add the absolute path to `wallpaper-start.sh` and set a 30-second delay. `wallpaper-interactive.sh` is an equivalent launcher. Keep the checkout at the configured path.
+
+## Browser demo
+
+```bash
 ./start.sh
 ```
-Apri http://127.0.0.1:8765/ nel browser. Con Chromium puoi usare `chromium --app=http://127.0.0.1:8765/`.
 
-## Impostazioni
-- Sfondo scuro: `http://127.0.0.1:8765/`
-- Sfondo chiaro: `http://127.0.0.1:8765/?theme=light`
-- Click: aggiunge cibo, i pesci nuotano verso di esso.
-- Movimento del mouse: i pesci reagiscono al cursore.
-- Puoi impostare `prefers-reduced-motion` per ottenere un fotogramma fermo.
+Open [the dark theme](http://127.0.0.1:8765/) or [the light theme](http://127.0.0.1:8765/?theme=light). Move the pointer to interact and left-click to feed the fish. The server listens on `127.0.0.1:8765`; stop it with `Ctrl+C`.
 
-## Uso come wallpaper
-Il pacchetto include il motore del wallpaper, non un'integrazione specifica col desktop. Per lo sfondo animato usa un gestore di wallpaper che supporti pagine web locali come sorgenti e imposta `http://127.0.0.1:8765/` come URL. Il metodo per inserire una finestra nel layer desktop dipende da Cinnamon/X11, KDE/Wayland o GNOME.
+## Compatibility and resource use
 
-La simulazione, il renderer e la geometria derivano dall'ASCII Koi Pond originale di **Dao Ho**: https://github.com/Dao-Ho/portfolio/tree/main/src/app/components/koi-pond. Questa variante aggiunge l'integrazione con Cinnamon X11 e la gestione dei consumi.
-Verifica la licenza e le condizioni d'uso del progetto prima di redistribuire il lavoro.
+Desktop integration has been checked on Cinnamon 6.4.8 and Nemo 6.4.5 with 1920×1080 and 1920×1200 monitors. Desktop mode does not support Wayland. Other desktop environments have not been validated. The standalone browser page needs Canvas 2D support.
 
-## Cinnamon X11: wallpaper su tutti i monitor
-Installa su Linux Mint: `sudo apt install python3-gi python3-xlib gir1.2-gtk-3.0 gir1.2-webkit2-4.1`
-Se la tua release non ha WebKit 4.1, prova `gir1.2-webkit2-4.0`.
-Dopo `./setup.sh`, esegui `./wallpaper-start.sh`. Non serve avviare il server HTTP:
-WebKitGTK apre direttamente `index.html` tramite `file://`.
-Il programma crea una finestra X11 DESKTOP per monitor e ne mantiene l'ordine sotto le icone di Nemo. Per terminarlo premi `Ctrl+C` nel terminale che lo ha avviato. Dettagli, verifiche e limiti in [README-INTERACTIVE.md](README-INTERACTIVE.md).
+The current limit is 16 fps, with a 30 Hz simulation and a 1× canvas. Covered monitors resume within about a second. The pause check requires one opaque window to cover the work area; partial coverage or a combination of smaller windows keeps the animation running. A transparent panel may show a frozen frame while the rest of the monitor is covered.
 
-Per l'avvio automatico, aggiungi `wallpaper-start.sh` alle Applicazioni d'avvio di Cinnamon solo dopo averlo verificato manualmente.
+Cinnamon may reserve `Alt` + click for moving windows. Logout/login and physical monitor hotplug remain untested. Earlier resource measurements used 8 fps and do not measure the current 16 fps setting. See the [desktop integration and measurement notes](README-INTERACTIVE.md).
+
+## Security and data
+
+The wallpaper reads local pointer state and window metadata for interaction and pause detection. It does not include telemetry or require an account, API key or runtime network connection. Browser mode serves the checkout through a loopback-only HTTP server. Building with `setup.sh` downloads esbuild from npm.
+
+## Build and validation
+
+To rebuild the checked-in TypeScript sources, install Node.js/npm and run:
+
+```bash
+./setup.sh
+```
+
+Run the local checks with:
+
+```bash
+/usr/bin/python3 -m unittest -v test_wallpaper
+node test_main.cjs
+```
+
+The checks cover desktop stacking, monitor creation, opaque-window pause rules, pointer coordinates, the 16 fps timer, pause/resume, browser visibility and reduced motion. The video is a visual demonstration, not a performance benchmark.
+
+## Attribution
+
+The fish simulation, renderer and geometry derive from the original ASCII Koi Pond by **Dao Ho**, available in [the upstream portfolio](https://github.com/Dao-Ho/portfolio/tree/main/src/app/components/koi-pond). This adaptation adds Cinnamon X11 integration, multi-monitor handling and resource controls.
+
+The demo is a local screen recording of this adaptation. Check the upstream project's license and usage terms before redistributing its code or recordings.
